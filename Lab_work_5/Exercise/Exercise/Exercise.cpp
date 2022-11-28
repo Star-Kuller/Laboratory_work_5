@@ -1,5 +1,6 @@
 ﻿#include <iostream>     
 #include <string>
+#include <Windows.h>
 
 using namespace std;
 
@@ -130,30 +131,109 @@ void N_2()
     delete[] arr;
 }
 
+string reversit(string str)
+{
+    string answer;
+    for (int i = str.length()-1; i >= 0; i--) {
+        answer.push_back(str[i]);
+    }
+    return answer;
+}
+
 void N_3()
 {
+    string userInput;
     cout << "\n>----------------[Начало выполнения N_3]----------------<\n";
-    
+    cout << "Введите текст: ";
+    cin.ignore();
+    getline(cin, userInput);
+    cout << "Развёрнутый текст: " << reversit(userInput);
     cout << "\n\n>----------------[Конец выполнения N_3]----------------<\n";
+}
+
+struct employee
+{
+    string name;
+    long number;
+};
+
+employee getData()
+{
+    employee data;
+    cout << "\nВведите имя служащего: ";
+    cin.ignore();
+    getline(cin, data.name);
+    cout << "Введите номер телефона служащего: ";
+    cin >> data.number;
+    return data;
+}
+
+void putData(employee data)
+{
+    cout << "\n\nИмя служащего: " << data.name;
+    cout << "\nНомер служащего: " << data.number;
 }
 
 void N_4()
 {
+    int size = 0;
+    int emplCounter;
+    employee* empl = new employee[size];
     cout << "\n>----------------[Начало выполнения N_4]----------------<\n";
-
+    cout << "Введите количество служащих: "; cin >> emplCounter;
+    for (int i = 0; i < emplCounter; i++)
+    {
+        pushBack(empl, size, getData());
+    }
+    for (int i = 0; i < size; i++)
+    {
+        putData(empl[i]);
+    }
     cout << "\n\n>----------------[Конец выполнения N_4]----------------<\n";
+}
+
+struct Distance
+{
+    int feet;
+    int inch;
+};
+
+Distance distanceMean(Distance* arr, int size)
+{
+    Distance answer = arr[0];
+    int sum = 0;
+    for (int i = 0; i < size; i++)
+    {
+        sum += arr[i].feet * 12 + arr[i].inch;
+    };
+    sum = sum / size;
+    answer.feet = sum / 12;
+    answer.inch = sum - answer.feet * 12;
+    return answer;
 }
 
 void N_5()
 {
+    int size = 0;
+    char dummychar;
+    Distance *arrDistance = new Distance[size];
+    Distance temp;
     cout << "\n>----------------[Начало выполнения N_5]----------------<\n";
-    
+    do {
+        cout << "Введите " << size + 1 << "-ую дистанцию в формате \"[футы],[дюймы]\" или 0x0 чтобы найти среднее значение: ";
+        cin >> temp.feet >> dummychar >> temp.inch;
+        if (!((dummychar == 'х') | (dummychar == 'Х') | (dummychar == 'x') | (dummychar == 'X'))) {
+            pushBack(arrDistance, size, temp);
+        }
+    } while (!((dummychar == 'х') | (dummychar == 'Х') | (dummychar == 'x') | (dummychar == 'X')));
+    cout << "\nСреднее значение: " << distanceMean(arrDistance, size).feet << "," << distanceMean(arrDistance, size).inch;
     cout << "\n\n>----------------[Конец выполнения N_5]----------------<\n";
 }
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
     int selected;
     while (true) {
         cout << "\n\n>--------------------[Главное меню]--------------------<\n";
